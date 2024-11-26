@@ -5,7 +5,7 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
     <link rel="icon"
           href="{{ asset("img/favicon.png") }}"
-         >
+    >
     {% block stylesheets %}
     {% endblock %}
 
@@ -14,12 +14,14 @@
     {% endblock %}
 </head>
 <body>
-{% include 'header/header.html.twig' %}
+<div class="container">
+    {% include 'header/header.html.twig' %}
 
-<main>
-    {% block body %}{% endblock %}
-</main>
+    <main>
+        {% block body %}{% endblock %}
+    </main>
 
-{% include 'footer/footer.html.twig' %}
+    {% include 'footer/footer.html.twig' %}
+</div>
 </body>
 </html>
