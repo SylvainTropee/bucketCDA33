@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Wish;
+use App\Repository\WishRepository;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -10,16 +13,21 @@ use Symfony\Component\Routing\Attribute\Route;
 class WishController extends AbstractController
 {
     #[Route('/', name: 'list', methods: ['GET'])]
-    public function list(): Response
+    public function list(WishRepository $wishRepository): Response
     {
-        return $this->render('wish/list.html.twig');
+
+        $wishes = $wishRepository->findBy(['isPublished' => true], ['dateCreated' => 'DESC']);
+
+        return $this->render('wish/list.html.twig', [
+            'wishes' => $wishes
+        ]);
     }
 
     #[Route('/detail/{id}', name: 'detail', requirements: ['id' => '[0-9]+'], methods: ['GET'])]
-    public function detail(int $id): Response
+    public function detail(#[MapEntity] Wish $wish): Response
     {
-
-        dump($id);
-        return $this->render('wish/detail.html.twig');
+        return $this->render('wish/detail.html.twig', [
+            'wish' => $wish
+        ]);
     }
 }
