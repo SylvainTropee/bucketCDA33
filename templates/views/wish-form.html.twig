@@ -1,0 +1,6 @@
+<h2>{% block formTitle %}{% endblock %}</h2>
+
+{{ form_start(wishForm) }}
+{{ form_widget(wishForm) }}
+<button>{% block formButtonLabel %}{% endblock %}</button>
+{{ form_end(wishForm) }}

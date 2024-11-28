@@ -6,6 +6,7 @@ use App\Repository\WishRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: WishRepository::class)]
 class Wish
 {
@@ -107,5 +108,10 @@ class Wish
         $this->dateUpdated = $dateUpdated;
 
         return $this;
+    }
+    #[ORM\PrePersist]
+    public function persistWish(){
+        $this->setDateCreated(new \DateTime());
+        $this->setPublished(true);
     }
 }

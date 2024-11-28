@@ -13,5 +13,12 @@
         <p>{{ wish.description | nl2br }}</p>
     </div>
 
+    <a href="{{ path('wish_update', {'id': wish.id}) }}">
+        <button>Modifier</button>
+    </a>
+    <a href="{{ path('wish_delete', {'id': wish.id}) }}">
+        <button>Supprimer</button>
+    </a>
+
 {% endblock %}
 
