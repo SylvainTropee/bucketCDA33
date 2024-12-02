@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\Wish;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -13,12 +14,27 @@ class AppFixtures extends Fixture
     {
         // $product = new Product();
         // $manager->persist($product);
-
-       $this->addWishes($manager);
+        $this->addCategories($manager);
+        $this->addWishes($manager);
     }
 
-    public function addWishes(ObjectManager $manager, int $number = 50)
+    public function addCategories(ObjectManager $manager): void
     {
+
+        $categories = ['Travel & Adventure', 'Sport', 'Entertainment', 'Human Relations', 'Others'];
+
+        foreach ($categories AS $cat){
+
+            $category = new Category();
+            $category->setName($cat);
+            $manager->persist($category);
+        }
+        $manager->flush();
+    }
+
+    public function addWishes(ObjectManager $manager, int $number = 50): void
+    {
+        $categories = $manager->getRepository(Category::class)->findAll();
 
         $faker = Factory::create('fr_FR');
 
@@ -30,7 +46,8 @@ class AppFixtures extends Fixture
                 ->setDateCreated($faker->dateTimeBetween('-6 month'))
                 ->setTitle($faker->sentence(2))
                 ->setDescription($faker->paragraph())
-                ->setPublished($faker->boolean(70));
+                ->setCategory($faker->randomElement($categories));
+//                ->setPublished($faker->boolean(70));
 
             $manager->persist($wish);
         }

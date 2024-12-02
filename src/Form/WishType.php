@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Wish;
+use App\Repository\CategoryRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,7 +20,15 @@ class WishType extends AbstractType
             ->add('description', TextareaType::class, [
                 'required' => false
             ])
-            ->add('author');
+            ->add('author')
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'placeholder' => '--Choisir une catégorie--',
+                'query_builder' => function (CategoryRepository $categoryRepository) {
+                    return $categoryRepository->createQueryBuilder('c')->addOrderBy('c.name');
+                }
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

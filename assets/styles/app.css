@@ -2,11 +2,10 @@ img{
     width: 60px;
 }
 main{
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .flex-div{
     display: flex;
     justify-items: center;
-
 }
