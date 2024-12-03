@@ -10,13 +10,34 @@
     <div>
         <h3>{{ wish.title }}</h3>
         <h4>[{{ wish.category.name }}]</h4>
-        <p>Crée par {{ wish.author }}, le {{ wish.dateCreated | date("d/m/Y") }}</p>
+        <p>Crée par {{ wish.user.username }}, le {{ wish.dateCreated | date("d/m/Y") }}</p>
         <p>{{ wish.description | nl2br }}</p>
     </div>
 
-    <a href="{{ path('wish_update', {'id': wish.id}) }}">
-        <button>Modifier</button>
-    </a>
+    <div>
+
+        <h5>Commentaires</h5>
+
+        {% for comment in wish.comments %}
+            <div>{{ comment.content }}</div>
+            <div>{{ comment.rating }} / 5</div>
+            <div>Créé par {{ comment.user.userIdentifier }}</div>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form_start(commentForm) }}
+        {{ form_widget(commentForm) }}
+        <button>Enregistrer !</button>
+        {{ form_end(commentForm) }}
+    </div>
+
+    {% if is_granted('WISH_EDIT', wish) %}
+        <a href="{{ path('wish_update', {'id': wish.id}) }}">
+            <button>Modifier</button>
+        </a>
+    {% endif %}
+
     <a href="{{ path('wish_delete', {'id': wish.id}) }}">
         <button>Supprimer</button>
     </a>

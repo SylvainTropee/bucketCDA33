@@ -20,7 +20,6 @@ class WishType extends AbstractType
             ->add('description', TextareaType::class, [
                 'required' => false
             ])
-            ->add('author')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
