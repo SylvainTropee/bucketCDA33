@@ -7,6 +7,7 @@ use App\Entity\Wish;
 use App\Form\CommentType;
 use App\Form\WishType;
 use App\Repository\WishRepository;
+use App\Services\Censurator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -98,10 +99,12 @@ class WishController extends AbstractController
 
 
     #[Route('/create', name: 'create', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+//    #[IsGranted('ROLE_USER')]
     public function create(
         Request                $request,
-        EntityManagerInterface $entityManager): Response
+        EntityManagerInterface $entityManager,
+        Censurator $censurator
+    ): Response
     {
         $wish = new Wish();
         $wishForm = $this->createForm(WishType::class, $wish);
@@ -111,6 +114,9 @@ class WishController extends AbstractController
         if ($wishForm->isSubmitted() && $wishForm->isValid()) {
 
             $wish->setUser($this->getUser());
+
+            $wish->setTitle($censurator->purify($wish->getTitle()));
+            $wish->setDescription($censurator->purify($wish->getDescription()));
 
             $entityManager->persist($wish);
             $entityManager->flush();
