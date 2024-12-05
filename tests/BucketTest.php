@@ -48,6 +48,10 @@ class BucketTest extends WebTestCase
         $this->assertResponseStatusCodeSame(302);
         $client->followRedirect();
 
+        $currentUrl = $client->getRequest()->getUri();
+        // Vérification que l'URL correspond au modèle attendu avec un ID
+        $this->assertMatchesRegularExpression('/\/wish\/detail\/\d+/', $currentUrl);
+
         $this->assertRouteSame('wish_detail');
     }
 
