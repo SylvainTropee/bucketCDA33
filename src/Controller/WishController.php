@@ -99,7 +99,7 @@ class WishController extends AbstractController
 
 
     #[Route('/create', name: 'create', methods: ['GET', 'POST'])]
-//    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_USER')]
     public function create(
         Request                $request,
         EntityManagerInterface $entityManager,
