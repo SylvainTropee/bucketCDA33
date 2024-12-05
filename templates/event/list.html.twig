@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h2>Liste des évènements près de chez vous !</h2>
+
+    {{ form(searchEventForm) }}
+
+    {% for event in events %}
+        <div class="flex-div">
+
+            {% if event.fields.thumbnail is defined %}
+                <img src="{{ event.fields.thumbnail }}" alt="{{ event.fields.title_fr }}">
+            {% endif %}
+            <div>
+                <div>{{ event.fields.title_fr }}</div>
+                <div>{{ event.fields.daterange_fr }}</div>
+                <div>{{ event.fields.location_name }}</div>
+                <div>{{ event.fields.location_address }}</div>
+                <div>{{ event.fields.description_fr }}</div>
+            </div>
+        </div>
+
+    {% else %}
+        <div>Pas d'évènements</div>
+    {% endfor %}
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

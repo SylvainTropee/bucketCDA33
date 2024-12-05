@@ -1,5 +1,6 @@
 img{
-    width: 60px;
+    width: auto;
+    max-width: 100px;
 }
 main{
     min-height: 100vh;
